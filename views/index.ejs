@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>To Do Application</title>
+
+    <style>
+        .error-message{
+            color:red;
+            display:none;
+        }
+    </style>
+</head>
+<body>
+    <h1> To Do Application</h1>
+    <form method="POST" action="/" onsubmit="return validateForm()">
+        <label> Enter a task to do</label>
+        <input type="text" name="task" id="taskInput">
+        <button>Add</button>
+        <p id="errorMessage" class="error-message">Field should be not empty</p>
+    </form>
+
+
+
+<!-- EJS for each loop condition -->
+    <h2>Tasks:</h2>
+    <ul>
+       
+        <% todoList.forEach(task => { %>
+            <li><%= task.task %></li>
+       <% })%>
+    </ul> 
+
+    <script>
+        function validateForm()
+        {
+            var taskField = document.getElementById("taskInput").value.trim();
+            var errorMessage = document.getElementById("errorMessage");
+        
+            if (taskField == "")
+            {
+                errorMessage.style.display ="block";
+                return false;
+            }
+            errorMessage.style.display ="none";
+            return true;
+        }
+    </script>
+
+</body>
+</html>
