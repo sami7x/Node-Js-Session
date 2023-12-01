@@ -73,4 +73,48 @@ const product_update = async(req,res) =>
     }
 };
 
-module.exports = {product_create, product_all, product_update };
+
+const product_delete = async(req,res)=>{
+    try{
+        const productId = req. params.productId;
+        const deleteProduct = await Product.findByIdAndDelete(
+            productId,
+            req.body,
+         
+        );
+        if(!deleteProduct)
+        {
+            return res.status(404).json({message: "Product not found"});
+        }
+        res.json({ message: "Product deleted successfully"});
+    }
+    catch(error)
+    {
+        res.status(500).json({mesage: error.message});
+
+    }
+}
+
+const product_single = async(req,res )=>
+{
+    try{
+        const productId = req. params.productId;
+        const singleProduct = await Product.findById (
+            productId,
+            req.body,
+        );
+        if(!singleProduct)
+        {
+            return res.status(404).json({message: "Product not found"});
+        }
+        res.json(singleProduct);
+    }
+    catch(error)
+    {
+        res.status(500).json({mesage: error.message});
+
+    }
+};
+
+
+module.exports = {product_create, product_all, product_update, product_delete, product_single };

@@ -24,10 +24,6 @@ app.use("/api/products", productRoutes);
 //port
 const PORT = process.env.PORT || 5001;
 
-
-
-
-
 //start server
 
 const startServer = async()=>
