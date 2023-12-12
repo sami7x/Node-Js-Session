@@ -3,6 +3,8 @@ const asyncHandler = require("express-async-handler");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const User = require("../model/userModel");
+const BlacklistToken = require("../model/blacklistToken");
+
 
 const registerUser = asyncHandler(async (req, res) => {
   const { username, email, password } = req.body;
@@ -70,8 +72,32 @@ const loginUser = asyncHandler(async (req, res) => {
   }
 });
 
+//for viewing ur profile detail
 const currentUser = asyncHandler(async(req,res) =>{
     res.json(req.user);
 });
 
-module.exports = { registerUser, loginUser, currentUser };
+
+//for logout
+const logoutUser = asyncHandler(async(req, res) =>
+{
+  const token = req.headers.authorization?.split(" ")[1];
+
+  if(!token)
+  {
+    return res.status(400).json({message: "Token not provied"});
+  }
+
+  //error handling
+  try{
+    //synchronous code here
+    await BlacklistToken.create({token});
+    return res.status(500).json({message: "Logout Successfully"});
+  }
+  catch(err)
+  {
+    return res.status(500).json({message: "Error Logging out"});
+  }
+});
+
+module.exports = { registerUser, loginUser, currentUser, logoutUser};

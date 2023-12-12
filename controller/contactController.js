@@ -55,7 +55,7 @@ const contact_update = asyncHandler(async(req,res) =>
     }
     catch(error)
     {
-        res.status(500).json({mesage: error.message});
+        res.status(500).json({message: error.message});
     }
 });
 
